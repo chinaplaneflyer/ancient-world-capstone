@@ -1,0 +1,853 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ancient World Capstone</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&family=EB+Garamond:ital,wght@0,400;0,500;1,400&family=Cormorant+SC:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --ivory: #f5f0e8;
+    --parchment: #ede5d0;
+    --warm-white: #faf7f2;
+    --ink: #1e1a14;
+    --ink-muted: #4a4035;
+    --ink-faint: #7a6e5e;
+    --burgundy: #6b1e2e;
+    --burgundy-light: #8b2e42;
+    --gold: #a07830;
+    --gold-light: #c49a50;
+    --rule: #c4b89a;
+    --rule-light: #ddd4bc;
+  }
+
+  body {
+    background-color: var(--ivory);
+    font-family: 'EB Garamond', Georgia, serif;
+    color: var(--ink);
+    min-height: 100vh;
+    font-size: 18px;
+    line-height: 1.7;
+  }
+
+  /* ── HEADER ── */
+  header {
+    background-color: var(--ink);
+    color: var(--parchment);
+    padding: 0;
+    text-align: center;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    border-bottom: 3px solid var(--gold);
+  }
+
+  .site-title-bar {
+    padding: 14px 24px 10px;
+    border-bottom: 1px solid rgba(196,184,154,0.25);
+  }
+
+  .site-title-bar h1 {
+    font-family: 'Cormorant SC', serif;
+    font-size: 13px;
+    letter-spacing: 0.25em;
+    font-weight: 400;
+    color: var(--gold-light);
+    text-transform: uppercase;
+  }
+
+  /* ── NAV TABS ── */
+  nav {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 0;
+    background-color: var(--ink);
+  }
+
+  nav button {
+    background: none;
+    border: none;
+    border-bottom: 2px solid transparent;
+    color: rgba(237,229,208,0.6);
+    font-family: 'Cormorant SC', serif;
+    font-size: 11px;
+    letter-spacing: 0.18em;
+    padding: 10px 18px;
+    cursor: pointer;
+    transition: color 0.2s, border-color 0.2s;
+    white-space: nowrap;
+  }
+
+  nav button:hover {
+    color: var(--parchment);
+    border-bottom-color: rgba(196,184,154,0.4);
+  }
+
+  nav button.active {
+    color: var(--gold-light);
+    border-bottom-color: var(--gold);
+  }
+
+  /* ── PAGES ── */
+  .page { display: none; }
+  .page.active { display: block; }
+
+  /* ── LANDING PAGE ── */
+  .landing {
+    min-height: calc(100vh - 90px);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 60px 32px;
+    background-color: var(--warm-white);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .landing::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image:
+      repeating-linear-gradient(0deg, transparent, transparent 39px, var(--rule-light) 39px, var(--rule-light) 40px);
+    opacity: 0.4;
+    pointer-events: none;
+  }
+
+  .landing-inner {
+    position: relative;
+    z-index: 1;
+    max-width: 640px;
+  }
+
+  .ornament {
+    font-size: 28px;
+    color: var(--gold);
+    display: block;
+    margin-bottom: 24px;
+    letter-spacing: 0.3em;
+  }
+
+  .landing h2 {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: clamp(28px, 5vw, 48px);
+    font-weight: 700;
+    line-height: 1.2;
+    color: var(--ink);
+    margin-bottom: 8px;
+  }
+
+  .landing .subtitle {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: clamp(16px, 2.5vw, 22px);
+    font-style: italic;
+    color: var(--ink-muted);
+    margin-bottom: 40px;
+  }
+
+  .rule-ornament {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin: 32px auto;
+    max-width: 300px;
+  }
+
+  .rule-ornament::before,
+  .rule-ornament::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--gold);
+  }
+
+  .rule-ornament span {
+    font-size: 16px;
+    color: var(--gold);
+    line-height: 1;
+  }
+
+  .info-table {
+    border-collapse: collapse;
+    margin: 0 auto;
+    font-size: 15px;
+    font-family: 'EB Garamond', serif;
+    color: var(--ink-muted);
+  }
+
+  .info-table td {
+    padding: 5px 16px;
+    text-align: left;
+  }
+
+  .info-table td:first-child {
+    text-align: right;
+    font-variant: small-caps;
+    letter-spacing: 0.06em;
+    color: var(--ink-faint);
+    padding-right: 8px;
+  }
+
+  .info-table td:last-child {
+    border-left: 1px solid var(--rule);
+    padding-left: 12px;
+    color: var(--ink);
+  }
+
+  .honor-code {
+    margin-top: 36px;
+    font-style: italic;
+    font-size: 14px;
+    color: var(--ink-faint);
+    border-top: 1px solid var(--rule-light);
+    padding-top: 20px;
+    max-width: 480px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  /* ── CONTENT PAGES ── */
+  .content-page {
+    max-width: 780px;
+    margin: 0 auto;
+    padding: 60px 32px 80px;
+  }
+
+  .page-header {
+    border-bottom: 1px solid var(--rule);
+    margin-bottom: 48px;
+    padding-bottom: 24px;
+    text-align: center;
+  }
+
+  .page-num {
+    font-family: 'Cormorant SC', serif;
+    font-size: 11px;
+    letter-spacing: 0.3em;
+    color: var(--gold);
+    display: block;
+    margin-bottom: 10px;
+  }
+
+  .page-header h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(24px, 4vw, 38px);
+    font-weight: 700;
+    line-height: 1.2;
+    color: var(--ink);
+    margin-bottom: 12px;
+  }
+
+  .page-header .page-desc {
+    font-style: italic;
+    color: var(--ink-faint);
+    font-size: 16px;
+    max-width: 500px;
+    margin: 0 auto;
+  }
+
+  /* ── TEXT BLOCKS ── */
+  .text-block {
+    margin-bottom: 36px;
+  }
+
+  .text-block h3 {
+    font-family: 'Playfair Display', serif;
+    font-size: 20px;
+    font-weight: 600;
+    color: var(--burgundy);
+    margin-bottom: 12px;
+    padding-bottom: 6px;
+    border-bottom: 1px solid var(--rule-light);
+  }
+
+  .text-block p {
+    color: var(--ink-muted);
+    font-size: 17px;
+    line-height: 1.85;
+    font-style: italic;
+  }
+
+  /* ── THESIS BOX ── */
+  .thesis-box {
+    background-color: var(--parchment);
+    border-left: 4px solid var(--burgundy);
+    padding: 28px 32px;
+    margin: 40px 0;
+    position: relative;
+  }
+
+  .thesis-box::before {
+    content: '\201C';
+    font-family: 'Playfair Display', serif;
+    font-size: 80px;
+    color: var(--burgundy);
+    opacity: 0.15;
+    position: absolute;
+    top: -10px;
+    left: 16px;
+    line-height: 1;
+  }
+
+  .thesis-box .thesis-label {
+    font-family: 'Cormorant SC', serif;
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    color: var(--burgundy);
+    margin-bottom: 12px;
+  }
+
+  .thesis-box p {
+    font-size: 18px;
+    font-style: italic;
+    line-height: 1.8;
+    color: var(--ink);
+  }
+
+  /* ── COMPARISON / CONTRAST COLUMNS ── */
+  .two-col {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 32px;
+    margin: 40px 0;
+  }
+
+  @media (max-width: 600px) {
+    .two-col { grid-template-columns: 1fr; }
+  }
+
+  .col-card {
+    background-color: var(--warm-white);
+    border: 1px solid var(--rule);
+    padding: 24px;
+  }
+
+  .col-card.ancient {
+    border-top: 3px solid var(--gold);
+  }
+
+  .col-card.modern {
+    border-top: 3px solid var(--burgundy);
+  }
+
+  .col-card .col-label {
+    font-family: 'Cormorant SC', serif;
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    margin-bottom: 10px;
+  }
+
+  .col-card.ancient .col-label { color: var(--gold); }
+  .col-card.modern .col-label { color: var(--burgundy); }
+
+  .col-card h4 {
+    font-family: 'Playfair Display', serif;
+    font-size: 18px;
+    margin-bottom: 12px;
+    color: var(--ink);
+  }
+
+  .col-card p {
+    font-size: 16px;
+    color: var(--ink-muted);
+    line-height: 1.75;
+    font-style: italic;
+  }
+
+  /* ── FOOTNOTE SIMULATION ── */
+  .footnote-section {
+    margin-top: 56px;
+    padding-top: 24px;
+    border-top: 1px solid var(--rule);
+  }
+
+  .footnote-section h4 {
+    font-family: 'Cormorant SC', serif;
+    font-size: 12px;
+    letter-spacing: 0.2em;
+    color: var(--ink-faint);
+    margin-bottom: 12px;
+  }
+
+  .footnote {
+    font-size: 13.5px;
+    color: var(--ink-faint);
+    line-height: 1.7;
+    margin-bottom: 6px;
+    padding-left: 20px;
+    text-indent: -20px;
+    font-style: italic;
+  }
+
+  sup {
+    font-size: 10px;
+    color: var(--burgundy);
+    font-style: normal;
+  }
+
+  /* ── BIBLIOGRAPHY ── */
+  .bib-entry {
+    font-size: 16px;
+    line-height: 1.75;
+    color: var(--ink-muted);
+    padding-left: 36px;
+    text-indent: -36px;
+    margin-bottom: 16px;
+  }
+
+  .bib-category {
+    font-family: 'Cormorant SC', serif;
+    font-size: 11px;
+    letter-spacing: 0.25em;
+    color: var(--gold);
+    margin: 32px 0 10px;
+    padding-bottom: 6px;
+    border-bottom: 1px solid var(--rule-light);
+  }
+
+  /* ── TWE PAGE ── */
+  .extent-bar {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin: 36px 0;
+    font-family: 'Cormorant SC', serif;
+    font-size: 12px;
+    letter-spacing: 0.15em;
+  }
+
+  .extent-bar span { color: var(--ink-faint); white-space: nowrap; }
+
+  .extent-track {
+    flex: 1;
+    height: 4px;
+    background: var(--rule-light);
+    position: relative;
+    border-radius: 2px;
+  }
+
+  .extent-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--gold), var(--burgundy));
+    border-radius: 2px;
+    width: 75%;
+  }
+
+  .extent-marker {
+    position: absolute;
+    top: 50%;
+    left: 75%;
+    transform: translate(-50%, -50%);
+    width: 12px;
+    height: 12px;
+    background: var(--burgundy);
+    border-radius: 50%;
+    border: 2px solid var(--warm-white);
+  }
+
+  /* ── CONCLUSION CALLOUT ── */
+  .callout {
+    background: var(--ink);
+    color: var(--parchment);
+    padding: 36px 40px;
+    margin: 40px 0;
+  }
+
+  .callout p {
+    font-family: 'Playfair Display', serif;
+    font-size: 20px;
+    font-style: italic;
+    line-height: 1.7;
+    color: var(--parchment);
+  }
+
+  .callout .callout-attr {
+    margin-top: 16px;
+    font-family: 'Cormorant SC', serif;
+    font-size: 12px;
+    letter-spacing: 0.2em;
+    color: var(--gold-light);
+  }
+
+  /* ── PROMPT BOX ── */
+  .prompt-box {
+    border: 1px dashed var(--rule);
+    padding: 20px 24px;
+    margin: 24px 0;
+    background-color: var(--warm-white);
+  }
+
+  .prompt-box .prompt-label {
+    font-family: 'Cormorant SC', serif;
+    font-size: 10px;
+    letter-spacing: 0.25em;
+    color: var(--gold);
+    margin-bottom: 8px;
+  }
+
+  .prompt-box p {
+    font-size: 15px;
+    color: var(--ink-faint);
+    font-style: italic;
+    line-height: 1.7;
+  }
+
+  /* ── BOTTOM RULE ── */
+  .bottom-rule {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin: 48px 0 0;
+    opacity: 0.4;
+  }
+
+  .bottom-rule::before, .bottom-rule::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--gold);
+  }
+
+  .bottom-rule span { font-size: 14px; color: var(--gold); }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="site-title-bar">
+    <h1>Ancient World Capstone &nbsp;·&nbsp; 2025–2026</h1>
+  </div>
+  <nav>
+    <button class="active" onclick="showPage('landing', this)">I. Home</button>
+    <button onclick="showPage('thesis', this)">II. Thesis</button>
+    <button onclick="showPage('comparison', this)">III. Comparison</button>
+    <button onclick="showPage('contrast', this)">IV. Contrast</button>
+    <button onclick="showPage('twe', this)">V. To What Extent</button>
+    <button onclick="showPage('conclusion', this)">VI. Conclusion</button>
+    <button onclick="showPage('bibliography', this)">VII. Bibliography</button>
+  </nav>
+</header>
+
+<!-- ════════════════════════════════════════════════════ -->
+<!-- I. LANDING PAGE                                      -->
+<!-- ════════════════════════════════════════════════════ -->
+<div id="landing" class="page active">
+  <div class="landing">
+    <div class="landing-inner">
+      <span class="ornament">✦ &nbsp; ✦ &nbsp; ✦</span>
+
+      <h2>[Your Project Title Here]</h2>
+      <p class="subtitle">[Your human constant — a short evocative phrase]</p>
+
+      <div class="rule-ornament"><span>◆</span></div>
+
+      <table class="info-table">
+        <tr><td>Name</td><td>[Your Full Name]</td></tr>
+        <tr><td>Class</td><td>Ancient World Capstone</td></tr>
+        <tr><td>Section</td><td>[Your Section]</td></tr>
+        <tr><td>Teacher</td><td>Mr. Barkett</td></tr>
+        <tr><td>Date</td><td>[Submission Date]</td></tr>
+      </table>
+
+      <div class="honor-code">
+        I pledge my honor that I have not violated the Honor Code during the completion of this work.
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════════════ -->
+<!-- II. THESIS                                           -->
+<!-- ════════════════════════════════════════════════════ -->
+<div id="thesis" class="page">
+  <div class="content-page">
+    <div class="page-header">
+      <span class="page-num">Chapter II</span>
+      <h2>Thesis</h2>
+      <p class="page-desc">An introduction to the human constant and the argument of this project.</p>
+    </div>
+
+    <div class="text-block">
+      <h3>The Human Constant</h3>
+      <p>[Introduce the specific aspect of human nature you are exploring. Explain what it is, why it matters, and why it is worth examining across time. Replace this placeholder text with your own writing.]</p>
+    </div>
+
+    <div class="text-block">
+      <h3>The Two Cases</h3>
+      <p>[Briefly introduce your Ancient World example and your 21st-century example. Give the reader enough context to understand both before diving deeper in later sections. Replace this placeholder text with your own writing.]</p>
+    </div>
+
+    <div class="thesis-box">
+      <div class="thesis-label">Thesis Statement</div>
+      <p>[Write your thesis statement here. It should clearly identify the human constant, name both examples, and assert the extent to which this trait endures across time.]</p>
+    </div>
+
+    <div class="text-block">
+      <h3>Significance</h3>
+      <p>[Explain why this comparison matters. What can we learn by studying this trait in these two contexts? Replace this placeholder with your own writing.]</p>
+    </div>
+
+    <div class="footnote-section">
+      <h4>Notes</h4>
+      <p class="footnote"><sup>1</sup> [Chicago-style footnote. Author Last, First. <em>Title of Work</em>. Place: Publisher, Year, page number.]</p>
+      <p class="footnote"><sup>2</sup> [Chicago-style footnote for second source.]</p>
+    </div>
+
+    <div class="bottom-rule"><span>◆</span></div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════════════ -->
+<!-- III. COMPARISON                                      -->
+<!-- ════════════════════════════════════════════════════ -->
+<div id="comparison" class="page">
+  <div class="content-page">
+    <div class="page-header">
+      <span class="page-num">Chapter III</span>
+      <h2>Comparison</h2>
+      <p class="page-desc">The ways in which the ancient and modern expressions of this human constant are similar despite centuries of separation.</p>
+    </div>
+
+    <div class="two-col">
+      <div class="col-card ancient">
+        <div class="col-label">Ancient World</div>
+        <h4>[Name of Ancient Example]</h4>
+        <p>[A brief description of how your human constant manifests in this ancient case. Replace with your own writing.]</p>
+      </div>
+      <div class="col-card modern">
+        <div class="col-label">21st Century</div>
+        <h4>[Name of Modern Example]</h4>
+        <p>[A brief description of how your human constant manifests in this modern case. Replace with your own writing.]</p>
+      </div>
+    </div>
+
+    <div class="text-block">
+      <h3>Point of Similarity I: [Title]</h3>
+      <p>[Explain the first major similarity between the two examples. Integrate evidence and analysis. Connect back to your thesis. Replace with your own writing.]<sup>1</sup></p>
+    </div>
+
+    <div class="text-block">
+      <h3>Point of Similarity II: [Title]</h3>
+      <p>[Explain the second major similarity between the two examples. Integrate evidence and analysis. Connect back to your thesis. Replace with your own writing.]<sup>2</sup></p>
+    </div>
+
+    <div class="text-block">
+      <h3>Point of Similarity III: [Title]</h3>
+      <p>[Explain the third major similarity between the two examples. Integrate evidence and analysis. Connect back to your thesis. Replace with your own writing.]<sup>3</sup></p>
+    </div>
+
+    <div class="footnote-section">
+      <h4>Notes</h4>
+      <p class="footnote"><sup>1</sup> [Chicago-style footnote.]</p>
+      <p class="footnote"><sup>2</sup> [Chicago-style footnote.]</p>
+      <p class="footnote"><sup>3</sup> [Chicago-style footnote.]</p>
+    </div>
+
+    <div class="bottom-rule"><span>◆</span></div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════════════ -->
+<!-- IV. CONTRAST                                         -->
+<!-- ════════════════════════════════════════════════════ -->
+<div id="contrast" class="page">
+  <div class="content-page">
+    <div class="page-header">
+      <span class="page-num">Chapter IV</span>
+      <h2>Contrast</h2>
+      <p class="page-desc">The ways in which the ancient and modern expressions of this human constant differ after centuries of separation.</p>
+    </div>
+
+    <div class="text-block">
+      <h3>What Has Changed</h3>
+      <p>[Introduce the idea that while the human constant is the same, its expression, context, or consequences differ between the two eras. Replace with your own writing.]</p>
+    </div>
+
+    <div class="text-block">
+      <h3>Point of Contrast I: [Title]</h3>
+      <p>[Explain the first major difference between the two examples. Integrate evidence and analysis. Connect back to your thesis. Replace with your own writing.]<sup>1</sup></p>
+    </div>
+
+    <div class="text-block">
+      <h3>Point of Contrast II: [Title]</h3>
+      <p>[Explain the second major difference between the two examples. Integrate evidence and analysis. Connect back to your thesis. Replace with your own writing.]<sup>2</sup></p>
+    </div>
+
+    <div class="text-block">
+      <h3>Point of Contrast III: [Title]</h3>
+      <p>[Explain the third major difference between the two examples. Integrate evidence and analysis. Connect back to your thesis. Replace with your own writing.]<sup>3</sup></p>
+    </div>
+
+    <div class="text-block">
+      <h3>Why It Still Endures</h3>
+      <p>[Despite the differences you just outlined, argue why the underlying human trait persists. This is a good place to address the "enduring" quality mentioned in the prompt. Replace with your own writing.]</p>
+    </div>
+
+    <div class="footnote-section">
+      <h4>Notes</h4>
+      <p class="footnote"><sup>1</sup> [Chicago-style footnote.]</p>
+      <p class="footnote"><sup>2</sup> [Chicago-style footnote.]</p>
+      <p class="footnote"><sup>3</sup> [Chicago-style footnote.]</p>
+    </div>
+
+    <div class="bottom-rule"><span>◆</span></div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════════════ -->
+<!-- V. TO WHAT EXTENT                                    -->
+<!-- ════════════════════════════════════════════════════ -->
+<div id="twe" class="page">
+  <div class="content-page">
+    <div class="page-header">
+      <span class="page-num">Chapter V</span>
+      <h2>To What Extent?</h2>
+      <p class="page-desc">Directly addressing the central question: how present and relevant is this aspect of human nature today?</p>
+    </div>
+
+    <div class="prompt-box">
+      <div class="prompt-label">The Prompt</div>
+      <p>"To what extent is an enduring, illuminating aspect of human nature represented in both an important example from the Ancient World as well as one from the 21st century?"</p>
+    </div>
+
+    <div class="text-block">
+      <h3>Restating the Argument</h3>
+      <p>[Briefly remind the reader of your thesis and the two examples you have analyzed. Set up your direct answer to the TWE question. Replace with your own writing.]</p>
+    </div>
+
+    <div class="extent-bar">
+      <span>Not At All</span>
+      <div class="extent-track">
+        <div class="extent-fill" style="width: 75%;"></div>
+        <div class="extent-marker" style="left: 75%;"></div>
+      </div>
+      <span>Completely</span>
+    </div>
+    <!-- Change the width % above to reflect your actual argument -->
+
+    <div class="text-block">
+      <h3>The Extent of This Trait Today</h3>
+      <p>[Directly answer the TWE question. To what degree is this human constant still present and relevant in the 21st century? Provide specific evidence and analysis. Replace with your own writing.]<sup>1</sup></p>
+    </div>
+
+    <div class="text-block">
+      <h3>Acknowledging Counterarguments</h3>
+      <p>[Address any reasons one might argue this trait is less present or relevant today. Refute or qualify these counterarguments to strengthen your own position. Replace with your own writing.]<sup>2</sup></p>
+    </div>
+
+    <div class="text-block">
+      <h3>Synthesis</h3>
+      <p>[Bring together the comparison, contrast, and extent arguments into a unified statement. How does the persistence of this trait across millennia illuminate something fundamental about humanity? Replace with your own writing.]</p>
+    </div>
+
+    <div class="footnote-section">
+      <h4>Notes</h4>
+      <p class="footnote"><sup>1</sup> [Chicago-style footnote.]</p>
+      <p class="footnote"><sup>2</sup> [Chicago-style footnote.]</p>
+    </div>
+
+    <div class="bottom-rule"><span>◆</span></div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════════════ -->
+<!-- VI. CONCLUSION                                       -->
+<!-- ════════════════════════════════════════════════════ -->
+<div id="conclusion" class="page">
+  <div class="content-page">
+    <div class="page-header">
+      <span class="page-num">Chapter VI</span>
+      <h2>Conclusion</h2>
+      <p class="page-desc">A contemporary perspective on this aspect of human nature — what it means, what it demands of us.</p>
+    </div>
+
+    <div class="text-block">
+      <h3>The Correct Position</h3>
+      <p>[Argue for the position you believe should be taken on this human constant from a contemporary perspective. Should it be embraced, controlled, redirected? Replace with your own writing.]</p>
+    </div>
+
+    <div class="callout">
+      <p>[Pull quote — your most compelling argument or a provocative claim from this page. Write it here as a standalone statement.]</p>
+      <div class="callout-attr">— [Your Name], Ancient World Capstone 2026</div>
+    </div>
+
+    <div class="text-block">
+      <h3>Moral Considerations</h3>
+      <p>[Discuss the moral dimensions of this human trait. Is it inherently good, bad, or neutral? How should contemporary society engage with it? Replace with your own writing.]<sup>1</sup></p>
+    </div>
+
+    <div class="text-block">
+      <h3>What History Teaches Us</h3>
+      <p>[Reflect on what the existence of this trait across thousands of years of human civilization can teach us. What can ancient civilizations tell us about who we are today? Replace with your own writing.]<sup>2</sup></p>
+    </div>
+
+    <div class="text-block">
+      <h3>Final Thoughts</h3>
+      <p>[Close with a resonant final statement. Return to your thesis one last time and leave the reader with something to think about. Replace with your own writing.]</p>
+    </div>
+
+    <div class="footnote-section">
+      <h4>Notes</h4>
+      <p class="footnote"><sup>1</sup> [Chicago-style footnote.]</p>
+      <p class="footnote"><sup>2</sup> [Chicago-style footnote.]</p>
+    </div>
+
+    <div class="bottom-rule"><span>◆</span></div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════════════ -->
+<!-- VII. BIBLIOGRAPHY                                    -->
+<!-- ════════════════════════════════════════════════════ -->
+<div id="bibliography" class="page">
+  <div class="content-page">
+    <div class="page-header">
+      <span class="page-num">Chapter VII</span>
+      <h2>Bibliography</h2>
+      <p class="page-desc">All sources cited, arranged alphabetically in Chicago style.</p>
+    </div>
+
+    <p class="bib-category">Primary Sources — Ancient World</p>
+
+    <p class="bib-entry">[Last, First. <em>Title of Primary Source</em>. Translated by First Last. Place of Publication: Publisher, Year.]</p>
+
+    <p class="bib-entry">[Last, First. "Title of Primary Source Document." In <em>Collection Title</em>, edited by First Last, page range. Place: Publisher, Year.]</p>
+
+    <p class="bib-category">Secondary Sources — Ancient World</p>
+
+    <p class="bib-entry">[Last, First. <em>Title of Secondary Source</em>. Place of Publication: Publisher, Year.]</p>
+
+    <p class="bib-entry">[Last, First. "Title of Journal Article." <em>Journal Name</em> Volume, no. Issue (Year): page range.]</p>
+
+    <p class="bib-category">Sources — 21st Century</p>
+
+    <p class="bib-entry">[Last, First. "Title of Article." <em>Publication Name</em>. Month Day, Year. URL.]</p>
+
+    <p class="bib-entry">[Last, First. "Title of Article." <em>Periodical Name</em>. Month Day, Year. URL.]</p>
+
+    <p class="bib-entry">[Last, First. <em>Title of Book or Report</em>. Place: Publisher, Year.]</p>
+
+    <p class="bib-category">Image Credits</p>
+
+    <p class="bib-entry">[Creator/Institution. "Image Title." Medium. Location/Collection. URL. License if applicable.]</p>
+
+    <div class="bottom-rule"><span>◆</span></div>
+  </div>
+</div>
+
+<script>
+function showPage(id, btn) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('nav button').forEach(b => b.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  btn.classList.add('active');
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+</script>
+</body>
+</html>
