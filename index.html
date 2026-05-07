@@ -8,6 +8,18 @@
 <style>
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
+  .full-bleed {
+  width: 100vw;
+  margin-left: calc(-50vw + 50%);
+}
+
+.full-bleed img {
+  width: 100%;
+  height: 500px;        /* adjust this to control how tall it is */
+  object-fit: cover;    /* crops to fill without stretching */
+  display: block;
+}
+
   :root {
     --ivory: #f5f0e8;
     --parchment: #ede5d0;
@@ -540,10 +552,9 @@
     <h2>???</h2>
   </div>
 
-  <p style="text-align: center;">
+  <div class="full-bleed">
     <img src="https://thereader.mitpress.mit.edu/wp-content/uploads/2026/03/Backrooms_model-700x394.jpg" alt="1">
-    <img src="https://media.licdn.com/dms/image/v2/D4D12AQGXqFq-9fjwSw/article-cover_image-shrink_600_2000/article-cover_image-shrink_600_2000/0/1729177188850?e=2147483647&v=beta&t=PrpnZnJqqhdAt_Y7y3zhJ5MG9NiDwIpYfklQAFk4G3I" alt="2">
-    <img src="https://bloody-disgusting.com/wp-content/uploads/2024/02/thebackrooms.jpg" alt="3">
+  </div>
 
     <div class="bottom-rule"><span>lol idk why I included this page</span></div>
   </div>
